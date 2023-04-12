@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<style>
+    TABLE{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    TH {
+        background: #b0e0e6;
+        text-align: center;
+        vertical-align: center;
+        border: 1px solid black;
+    }
+    TD {
+        background: #00bb70;
+        text-align: center;
+        vertical-align: center;
+        border: 1px solid black;
+    }
+</style>
+<div style="display: grid ; grid-template-columns: auto auto; min-height: fit-content; font-family: 'Arial Narrow'">
+    <table id="users" >
+        <thead>
+        <tr>
+            <th colspan="6"> All Users</th>
+        </tr>
+        <tr>
+            <th th:text="ID"> ID</th>
+            <th th:text="Name"> Name</th>
+            <th th:text="LastName"> LastName</th>
+            <th th:text="Age"> Age</th>
+            <th th:text="Edit"> Edit</th>
+            <th th:text="Delete"> Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.lastName}"></td>
+            <td th:text="${user.age}"></td>
+            <td>
+                <form th:action="@{users/update/{id} (id = ${user.getId()})}"
+                      th:object="${user}" method="post">
+                    <button type="submit">Edit</button>
+                </form>
+            </td>
+            <td>
+                <form  th:action="@{users/delete/{id}(id = ${user.getId()})}" method="post" >
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <form id="form" th:action="@{/users}" th:object="${user}" method="post">
+        <table id="user">
+            <thead>
+            <tr>
+                <th id="formHead" th:text="${formHead}" colspan="3"></th>
+            </tr>
+            <tr>
+                <td> User Name</td>
+                <td> User Last Name</td>
+                <td> User Age</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input th:autocomplete="Vasya" type="text" name="name"></td>
+                <td><input th:autocomplete="Petrov" type="text" name="lastName"></td>
+                <td><input th:autocomplete="45" type="number" name="age"></td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <input type="submit" value="Create!"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+</body>
+</html>
