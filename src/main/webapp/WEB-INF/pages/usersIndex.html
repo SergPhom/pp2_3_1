@@ -23,8 +23,12 @@
         vertical-align: center;
         border: 1px solid black;
     }
+    INPUT[type="text"] {
+        background-color: navy;
+        color: #ffe;
+    }
 </style>
-<div style="display: grid; grid-template-columns: auto auto; min-height: fit-content; font-family: 'Arial Narrow'">
+<div style="display: flex; min-height: fit-content; font-family: 'Arial Narrow'">
     <table id="users" >
         <thead>
         <tr>
@@ -35,23 +39,34 @@
             <th th:text="Name"> Name</th>
             <th th:text="LastName"> LastName</th>
             <th th:text="Age"> Age</th>
-            <th th:text="Edit"> Edit</th>
-            <th th:text="Delete"> Delete</th>
+            <th colspan="2" ></th>
         </tr>
+        <tr>
+            <form th:action="@{${formAction}}" th:object="${newUser}" method="post">
+            <th th:text="${newUser.id}==0 ? 'NEW' : ${newUser.id}"></th>
+            <th><input th:field="*{name}" type="text" name="name" ></th>
+            <th><input th:field="*{lastName}" type="text" name="name"></th>
+            <th><input th:field="*{age}" type="text" name="name"></th>
+            <th colspan="2">
+                <button th:text="${formButton}" type="submit"></button>
+            </th>
+            </form>
+        </tr>
+
         </thead>
         <tbody>
-        <tr th:each="user : ${users}">
+        <tr th:each="user : ${users}" >
             <td th:text="${user.id}"></td>
             <td th:text="${user.name}"></td>
             <td th:text="${user.lastName}"></td>
             <td th:text="${user.age}"></td>
             <td>
-                <form th:action="@{users/update/{id} (id = ${user.getId()}) }" method="get">
+                <form th:action="@{/users/update/{id} (id = ${user.getId()})}" method="get">
                     <button type="submit">Edit</button>
                 </form>
             </td>
             <td>
-                <form  th:action="@{users/delete/{id}(id = ${user.getId()})}" method="post" >
+                <form  th:action="@{/users/delete/{id}(id = ${user.getId()})}" method="post">
                     <button type="submit">Delete</button>
                 </form>
             </td>
@@ -60,32 +75,6 @@
         </tbody>
     </table>
 
-    <table id="user">
-        <thead>
-            <tr>
-                <th id="formHead" th:text="${formHead}" colspan="3"></th>
-            </tr>
-            <tr>
-                <td> User Name</td>
-                <td> User Last Name</td>
-                <td> User Age</td>
-            </tr>
-        </thead>
-        <tbody>
-            <form id="addForm" th:action="@{${formAction}}" th:object="${user}" method="post">
-            <tr>
-                <td><input th:field="*{name}" type="text" name="name"></td>
-                <td><input th:field="*{lastName}" type="text" name="lastName"></td>
-                <td><input th:field="*{age}" type="number" name="age"></td>
-            </tr>
-            <tr>
-                <td colspan="3">
-                    <input type="submit" th:value="${formButton}"/>
-                </td>
-            </tr>
-            </form>
-        </tbody>
-    </table>
 </div>
 </body>
 </html>

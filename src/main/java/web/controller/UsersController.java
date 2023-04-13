@@ -21,48 +21,36 @@ public class UsersController {
 
     @GetMapping()
     public String printUsers(ModelMap model) {
-        model.addAttribute("users", service.getAllUsers());
-        model.addAttribute("formHead", "Add New User");
         model.addAttribute("formAction", "/users");
-        model.addAttribute("user", new User());
-        model.addAttribute("formButton", "Create user");
+        model.addAttribute("newUser", new User(0L,"Enter Name", "Enter Last Name", 0));
+        model.addAttribute("formButton", "Add User");
+        model.addAttribute("users", service.getAllUsers());
         return "usersIndex";
     }
 
     @PostMapping()
     public String addUser(@ModelAttribute("user") User user) {
-        System.out.println(user.toString());
         service.saveUser(user);
         return "redirect:/users";
     }
 
-    //Edit user mode
     @GetMapping("/update/{id}")
-    public String editUser(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("users",service.getAllUsers());
-        model.addAttribute("formHead", "Edit This User");
+    public String updateUser(Model model, @PathVariable("id") Long id) {
         model.addAttribute("formAction", "/users/update/" + id);
-        model.addAttribute("user", service.getUserById(id));
-        model.addAttribute("formButton", "Update this user");
+        model.addAttribute("newUser", service.getUserById(id));
+        model.addAttribute("formButton", "Edit User");
+        model.addAttribute("users", service.getAllUsers());
         return "usersIndex";
     }
-
-    @PatchMapping()
-    public String editUser(@ModelAttribute("user") User user) {
+    @PostMapping("/update/{id}")
+    public String updateUser(@ModelAttribute("newUser") User user) {
         service.updateUser(user);
         return "redirect:/users";
     }
 
-    //Button actions
     @PostMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         service.deleteUser(id);
-        return "redirect:/users";
-    }
-
-    @PostMapping("/update/{id}")
-    public String updateUser(@ModelAttribute("user") User user) {
-        service.updateUser(user);
         return "redirect:/users";
     }
 }
