@@ -24,7 +24,7 @@
         border: 1px solid black;
     }
 </style>
-<div style="display: grid ; grid-template-columns: auto auto; min-height: fit-content; font-family: 'Arial Narrow'">
+<div style="display: grid; grid-template-columns: auto auto; min-height: fit-content; font-family: 'Arial Narrow'">
     <table id="users" >
         <thead>
         <tr>
@@ -46,8 +46,7 @@
             <td th:text="${user.lastName}"></td>
             <td th:text="${user.age}"></td>
             <td>
-                <form th:action="@{users/update/{id} (id = ${user.getId()})}"
-                      th:object="${user}" method="post">
+                <form th:action="@{users/update/{id} (id = ${user.getId()}) }" method="get">
                     <button type="submit">Edit</button>
                 </form>
             </td>
@@ -61,9 +60,8 @@
         </tbody>
     </table>
 
-    <form id="form" th:action="@{/users}" th:object="${user}" method="post">
-        <table id="user">
-            <thead>
+    <table id="user">
+        <thead>
             <tr>
                 <th id="formHead" th:text="${formHead}" colspan="3"></th>
             </tr>
@@ -72,21 +70,22 @@
                 <td> User Last Name</td>
                 <td> User Age</td>
             </tr>
-            </thead>
-            <tbody>
+        </thead>
+        <tbody>
+            <form id="addForm" th:action="@{${formAction}}" th:object="${user}" method="post">
             <tr>
-                <td><input th:autocomplete="Vasya" type="text" name="name"></td>
-                <td><input th:autocomplete="Petrov" type="text" name="lastName"></td>
-                <td><input th:autocomplete="45" type="number" name="age"></td>
+                <td><input th:field="*{name}" type="text" name="name"></td>
+                <td><input th:field="*{lastName}" type="text" name="lastName"></td>
+                <td><input th:field="*{age}" type="number" name="age"></td>
             </tr>
             <tr>
                 <td colspan="3">
-                    <input type="submit" value="Create!"/>
+                    <input type="submit" th:value="${formButton}"/>
                 </td>
             </tr>
-            </tbody>
-        </table>
-    </form>
+            </form>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
