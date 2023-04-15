@@ -7,29 +7,27 @@
 </head>
 <body>
 <style>
-    TABLE{
+    TABLE {
         border: 1px solid black;
         border-collapse: collapse;
     }
+
     TH {
         background: #b0e0e6;
         text-align: center;
         vertical-align: center;
         border: 1px solid black;
     }
+
     TD {
         background: #00bb70;
         text-align: center;
         vertical-align: center;
         border: 1px solid black;
     }
-    INPUT[type="text"] {
-        background-color: navy;
-        color: #ffe;
-    }
 </style>
 <div style="display: flex; min-height: fit-content; font-family: 'Arial Narrow'">
-    <table id="users" >
+    <table id="users">
         <thead>
         <tr>
             <th colspan="6"> All Users</th>
@@ -39,39 +37,38 @@
             <th th:text="Name"> Name</th>
             <th th:text="LastName"> LastName</th>
             <th th:text="Age"> Age</th>
-            <th colspan="2" ></th>
+            <th colspan="2"></th>
         </tr>
         <tr>
-            <form th:action="@{${formAction}}" th:object="${newUser}" method="post">
-            <th th:text="${newUser.id}==0 ? 'NEW' : ${newUser.id}"></th>
-            <th><input th:field="*{name}" type="text" name="name" ></th>
-            <th><input th:field="*{lastName}" type="text" name="name"></th>
-            <th><input th:field="*{age}" type="text" name="name"></th>
-            <th colspan="2">
-                <button th:text="${formButton}" type="submit"></button>
-            </th>
+            <form th:method="${formMethod}" th:action="@{${formAction}}" th:object="${newUser}">
+                <th th:text="${newUser.id}==0 ? 'NEW' : ${newUser.id}"></th>
+                <th><input th:field="*{name}" type="text" name="name"></th>
+                <th><input th:field="*{lastName}" type="text" name="name"></th>
+                <th><input th:field="*{age}" type="text" name="name"></th>
+                <th colspan="2">
+                    <button th:text="${formButton}" type="submit"></button>
+                </th>
             </form>
         </tr>
 
         </thead>
         <tbody>
-        <tr th:each="user : ${users}" >
+        <tr th:each="user : ${users}">
             <td th:text="${user.id}"></td>
             <td th:text="${user.name}"></td>
             <td th:text="${user.lastName}"></td>
             <td th:text="${user.age}"></td>
             <td>
-                <form th:action="@{/users/update/{id} (id = ${user.getId()})}" method="get">
+                <form th:action="@{/update/{id} (id = ${user.getId()})}" method="get">
                     <button type="submit">Edit</button>
                 </form>
             </td>
             <td>
-                <form  th:action="@{/users/delete/{id}(id = ${user.getId()})}" method="post">
-                    <button type="submit">Delete</button>
+                <form th:method="DELETE" th:action="@{/delete/{id}(id = ${user.getId()})}">
+                    <input type="submit" value="Delete">
                 </form>
             </td>
         </tr>
-
         </tbody>
     </table>
 

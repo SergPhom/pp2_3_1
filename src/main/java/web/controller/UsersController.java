@@ -10,7 +10,6 @@ import web.service.UserService;
 
 
 @Controller
-@RequestMapping("/users")
 public class UsersController {
     private UserService service;
 
@@ -19,38 +18,41 @@ public class UsersController {
         this.service = service;
     }
 
-    @GetMapping()
+    @GetMapping("/")
     public String printUsers(ModelMap model) {
-        model.addAttribute("formAction", "/users");
+        model.addAttribute("formMethod", "POST");
+        model.addAttribute("formAction", "/");
         model.addAttribute("newUser", new User(0L,"Enter Name", "Enter Last Name", 0));
         model.addAttribute("formButton", "Add User");
         model.addAttribute("users", service.getAllUsers());
         return "usersIndex";
     }
 
-    @PostMapping()
+    @PostMapping("/")
     public String addUser(@ModelAttribute("user") User user) {
         service.saveUser(user);
-        return "redirect:/users";
+        return "redirect:/";
     }
 
     @GetMapping("/update/{id}")
     public String updateUser(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("formAction", "/users/update/" + id);
+        model.addAttribute("formMethod", "PUT");
+        model.addAttribute("formAction", "/update/" + id);
         model.addAttribute("newUser", service.getUserById(id));
         model.addAttribute("formButton", "Edit User");
         model.addAttribute("users", service.getAllUsers());
         return "usersIndex";
     }
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public String updateUser(@ModelAttribute("newUser") User user) {
         service.updateUser(user);
-        return "redirect:/users";
+        return "redirect:/";
     }
 
-    @PostMapping("/delete/{id}")
+
+    @DeleteMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         service.deleteUser(id);
-        return "redirect:/users";
+        return "redirect:/";
     }
 }

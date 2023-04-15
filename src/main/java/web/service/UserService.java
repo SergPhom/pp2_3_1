@@ -1,6 +1,5 @@
 package web.service;
 
-import org.hibernate.type.descriptor.sql.LongVarcharTypeDescriptor;
 import web.model.User;
 
 import java.util.List;
