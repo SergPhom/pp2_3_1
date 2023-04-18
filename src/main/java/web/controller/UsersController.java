@@ -20,6 +20,7 @@ public class UsersController {
 
     @GetMapping("/")
     public String printUsers(ModelMap model) {
+
         model.addAttribute("formMethod", "POST");
         model.addAttribute("formAction", "/");
         model.addAttribute("newUser", new User(0L,"Enter Name", "Enter Last Name", 0));
